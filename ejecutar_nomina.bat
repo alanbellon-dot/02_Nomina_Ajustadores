@@ -1,8 +1,10 @@
 @echo off
 title Bot de Nomina - Aseguradora Digital
 
-echo === ACTUALIZANDO CODIGO DESDE GIT ===
-git pull
+echo === SINCRONIZANDO CON LA ULTIMA VERSION DEL BOT ===
+:: Descarga todo de GitHub y fuerza a Windows a ser una copia exacta
+git fetch --all
+git reset --hard origin/main
 
 echo.
 echo === PREPARANDO ENTORNO VIRTUAL ===
