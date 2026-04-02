@@ -1,24 +1,41 @@
 #!/bin/bash
 
-# 1. Nos movemos a la carpeta donde está este script (el repositorio)
+# 1. Nos movemos a la carpeta del repositorio
 cd "$(dirname "$0")"
 
 echo "================================================="
 echo "Sincronizando con la última versión del bot..."
 echo "================================================="
-
-# 2. Descarga todo de GitHub y fuerza a la Mac a ser una copia exacta
-# Nota: Si tu rama en GitHub se llama 'master' en lugar de 'main', cambia 'origin/main' por 'origin/master'
 git fetch --all
 git reset --hard origin/main
 
 echo ""
 echo "================================================="
-echo "Iniciando el bot..."
+echo "Preparando Entorno Virtual..."
 echo "================================================="
-
-# 3. AQUÍ VA EL COMANDO PARA EJECUTAR TU BOT
-# Ejemplo si es Python: python3 main.py
+# Si la carpeta venv no existe, la crea
+if [ ! -d "venv" ]; then
+    python3 -m venv venv
+fi
 
 echo ""
-echo "Proceso finalizado. Puedes cerrar esta ventana."
+echo "================================================="
+echo "Activando entorno e instalando dependencias..."
+echo "================================================="
+# Activa el entorno en Mac
+source venv/bin/activate
+
+# Instala lo que está en requirements.txt y los navegadores de Playwright
+pip3 install -r requirements.txt
+playwright install
+
+echo ""
+echo "================================================="
+echo "🤖 INICIANDO BOT DE NOMINA..."
+echo "================================================="
+# Ejecuta tu código principal
+python3 main.py
+
+echo ""
+echo "Proceso terminado. Presiona cualquier tecla para cerrar esta ventana..."
+read -n 1 -s
